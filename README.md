@@ -3,7 +3,7 @@
 # Used Car Market Value Prediction
 ###### By: Mitchell LaBauve
 
-
+<img src="./img/used_cars.jpeg" alt="used cars pic">
 
 
 Problem Statement:
