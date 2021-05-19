@@ -70,7 +70,7 @@ I tried multiple different models regardless of the complexity of the model. For
 I chose to use r squared as my metric so that I could see how well the features predicted the actual value or in different words, how well the predictions fit the curve. In other scenarios I may have opted for adjusted r squared to account for overfitting, however, for this first model, I was not picky on which columns to use. Adjusted R2 decreases with more  and more useless columns. 
 
 
-  <img src="./img/r2.jpeg" alt="r2 formula">
+  <img src="./img/r2.png" alt="r2 formula">
 
 
 
