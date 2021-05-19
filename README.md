@@ -1,44 +1,84 @@
-###### Capstone_two
+## Used Car Sale Price Prediction
 
-# Used Car Market Value Prediction
-###### By: Mitchell LaBauve
 
 <img src="./img/used_cars.jpeg" alt="used cars pic">
 
 
-Problem Statement:
-Trucktrax will predict the market value of a used vehicle before its opening in November 2020 by analyzing current market data from craigslist.
 
-Context
-Trucktrax is a soon to open used car lot that focuses on moving inventory frequently rather than buying and holding. In order to do this, the market value of each vehicle to sell will need to be rooted in current data so that the business model of buying and selling vehicles frequently will stand the test of the market. 
+A new car lot opening soon needs to buy inventory. They intend to know the price to sell each car before they acquire it so that they can account for their desired profit margin. So, the goal of this project is to create a regression model to predict the future sell price of a used car.
 
-Success Criteria
-The criteria for success will be to predict the selling price of any vehicle based on the make, model, year, region and condition. 
 
-Scope
-The scope of this project includes Craigslist listed used vehicles in the United States. 
 
-Constraints
-Constraints to be aware of are the limited data for every type of vehicle, make, model and so on available at one time resulting in a lack of relevant market data to properly train our model. 
 
-Stakeholders
-The stakeholders for this project are the management of Trucktrax, John Smith and Jane Doe. 
+##### Data
+The data needed to train the model is available on multiple used car websites. For ease of use, I used a dataset from Kaggle linked below. However, if I need more data in the future, then sites like autotrader and edmunds have ample used car data that is scrapable with the python library BeautifulSoup.
 
-The Data
-The data source will be from Kaggle’s Craigslist scraper found here (https://www.kaggle.com/austinreese/craigslist-carstrucks-data)
-The csv file associated with the data provides 25 columns and 423857 unique values. Some of the columns of interest will be the model, manufacturer, condition and state to name a few. Each instance of data has a unique id and urls referencing its source. For now we will focus on numerical and categorical data for the prediction, but later, NLP may be useful for a more defined and specific prediction.
 
-Final Products
-The results of the project will be a model that correctly predicts the market value of each vehicle, a 1-2 page report explaining the findings and why they are significant, and a slide deck presentation to summarize those findings. 
+* https://www.kaggle.com/austinreese/craigslist-carstrucks-data)
 
-Next Steps Overview
-Now that the problem has been defined in a measurable result and supplemental data has been shared, the next step will be to get the data.
 
-Once this data is cleaned for null values and organized appropriately, we will explore the data for descriptive stats, trends and correlations. 
+##### Method
+Among the options for supervised learning models that were tried (linear regression, SVM, MLP, XGB and decision tree) decision tree produced the best results at 57% (metric: R squared). RandomSearchCV with different parameters were used for hyper-parameters, which resulted in a 64% result. 
 
-Next, we need some metrics to determine what type of machine learning, if any, will provide the most accurate and reliable result. Some options are MSE, MAE, R2. 
-Then once the metrics are identified, the model needs to be selected. Some possibilities are random forest, linear regression, logistic regression, decision tree and then a mix of these models through ensembling. To keep it simple, we will test linear regression and random forest without ensembling for now. But, if there proves to be insufficient data, then we may utilize ensembling to create a more accurate model. Ensembling is a technique including boosting, bagging and stacking that attempts to minimize bias and variance from one single model. 
 
-Overall, the goals in simpler terms are to tidy the data into one field per column and one entity per row with out null values, and to train and compare a linear regression model and a random forest model. 
+##### Data Cleaning
+In order to manage the missing data, KNN Imputer from SKlearn was used to fill in data that was most similar to that item. This option seemed to preserve the data better than simply using the mean or median of the feature.
 
-Let’s get started!
+
+One of the features of this dataset was the VIN number, which at first glance seemed to be meaningless, however, after further inquiry, I learned that the VIN number holds information about the car’s year, model, make and a few other things. Armed with this knowledge, I was able to replace some missing values by decoding the VIN number saving thousands of rows of data. 
+
+
+<img src="./img/vin.png" alt="vin number">
+
+
+
+##### EDA
+
+
+Looking through a histogram of each numerical column showed that much of the data was skewed including the dependent variable price. Below is a chart of price.
+
+
+Non-Parametric Distribution vs Log Transformation
+  
+<img src="./img/price.png" alt="original price">
+<img src="./img/lt.png" alt="log transformed price">
+  
+
+NOTE: the chart on the left is the original price chart before the log transform, which is on the right. A log transform was performed on all numerical skewed data.
+
+
+Below is another example of the skewness of the year. We can see that it needs to be log transformed to make it more normal so that the model will perform better. 
+
+
+
+
+Count per Year
+  
+<img src="./img/year.png" alt="count by year">
+
+
+This dataset is left skewed.
+
+
+
+
+##### Algorithms and Machine Learning
+I tried multiple different models regardless of the complexity of the model. For example, I tried a linear regression model, which is simple to understand. I also tried a multi layered perceptron, which is too complex to understand the steps that led to a prediction. In this case, I did not mind having a more complex model because understanding the reasoning for my predictions was not necessary. I mainly cared about the final predictions. If I had wanted to understand more about which cars gave better profit margins then I may have chosen a model that I could understand some of the logic behind which features were most influential so that I could make informed decisions about specific details of the cars to be bought. 
+
+
+##### Metrics
+I chose to use r squared as my metric so that I could see how well the features predicted the actual value or in different words, how well the predictions fit the curve. In other scenarios I may have opted for adjusted r squared to account for overfitting, however, for this first model, I was not picky on which columns to use. Adjusted R2 decreases with more  and more useless columns. 
+
+
+  <img src="./img/r2.jpeg" alt="r2 formula">
+
+
+
+##### Future Improvements
+* Bin the prices to then predict a range of price rather than a specific price. This would turn into a classification model due to the discrete bins.
+* Spend more time feature engineering
+* Collect more data to train on
+
+
+##### Credits
+Thanks to my Springboard Student advisor for helping me to stay on track with my course, and to my SpringBoard mentor, Reza Saddodin for supporting and teaching me along the way.
